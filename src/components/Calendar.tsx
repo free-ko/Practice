@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { useCalendar } from '~/hooks/useCalendar';
 
 import { ReactNode } from 'react';
