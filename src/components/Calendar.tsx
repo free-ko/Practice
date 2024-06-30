@@ -24,7 +24,6 @@ const Tbody = ({ children }: { children: ReactNode }) => {
 };
 
 // 데이터 추상화
-// - Headless 기반의 추상화
 export const Calendar = () => {
   const { headers, body } = useCalendar();
 
