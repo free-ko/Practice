@@ -42,3 +42,32 @@ export const FrameworkSelect = () => {
     />
   );
 };
+
+// 다중 선택
+// - 기존 한가지 역할만 하는 컴포넌트를 다중 선택을 지원하는 컴포넌트로 변경가능
+export const FrameworkSelectMultiSelect = ({
+  selectedFrameworks,
+  onFrameworkChange,
+  frameworks,
+}) => {
+  return (
+    <Dropdwon value={selectedFrameworks}>
+      <Dropdwon.Trigger
+        as={<Button>{String(selectedFrameworks ?? '선택하기')}</Button>}
+      >
+        <Dropdwon.Modal
+          controls={
+            <Flex>
+              <Button type='reset'>초기화</Button>
+              <Button type='sumbit'>적용하기</Button>
+            </Flex>
+          }
+        >
+          {frameworks.map((framework) => (
+            <Dropdwon.Item>{framework}</Dropdwon.Item>
+          ))}
+        </Dropdwon.Modal>
+      </Dropdwon.Trigger>
+    </Dropdwon>
+  );
+};
