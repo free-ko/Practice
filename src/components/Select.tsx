@@ -3,6 +3,7 @@ import { ReactNode, useState } from 'react';
 import { Dropdwon } from './Dropdwon';
 import { InputButton } from './InputButton';
 import { useFrameworks } from '~/hooks/useFrameworks';
+import { Button } from './Button';
 
 interface ISelectProps {
   trigger: ReactNode;
@@ -59,7 +60,7 @@ export const FrameworkSelectMultiSelect = ({
           controls={
             <Flex>
               <Button type='reset'>초기화</Button>
-              <Button type='sumbit'>적용하기</Button>
+              <Button type='submit'>적용하기</Button>
             </Flex>
           }
         >
