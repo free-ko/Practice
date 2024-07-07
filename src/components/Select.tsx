@@ -27,35 +27,27 @@ export const Select = ({ value, trigger, onChange, options }: ISelectProps) => {
   );
 };
 
-// 한가지 역할만 하기
-export const FrameworkSelect = () => {
-  const {
-    data: { frameworks },
-  } = useFrameworks();
-  const [selected, change] = useState<string>('');
-
-  return (
-    <Select
-      trigger={<InputButton value={selected} onChange={change} />}
-      value={selected}
-      onChange={change}
-      options={frameworks}
-    />
-  );
-};
-
 // 다중 선택
 // - 기존 한가지 역할만 하는 컴포넌트를 다중 선택을 지원하는 컴포넌트로 변경가능
-export const FrameworkSelectMultiSelect = ({
-  selectedFrameworks,
-  onFrameworkChange,
-  frameworks,
-}) => {
+// - 일반적인 인터페이스로 분리하기
+// - 표준(이해하기 쉬운 인터페이스)
+
+interface IMultiSelectProps {
+  options: Array<{ label: string }>;
+  value?: string[];
+  onChange: (selected: string[]) => void;
+  valueAs?: (value: string[]) => string;
+}
+
+export const MultiSelect = ({
+  value,
+  onChange,
+  options,
+  valueAs = (value) => String(value ?? '선택하기'),
+}: IMultiSelectProps) => {
   return (
-    <Dropdwon value={selectedFrameworks}>
-      <Dropdwon.Trigger
-        as={<Button>{String(selectedFrameworks ?? '선택하기')}</Button>}
-      >
+    <Dropdwon value={value} onChange={onChange}>
+      <Dropdwon.Trigger as={<Button>{valueAs(value)}</Button>}>
         <Dropdwon.Modal
           controls={
             <Flex>
@@ -64,11 +56,28 @@ export const FrameworkSelectMultiSelect = ({
             </Flex>
           }
         >
-          {frameworks.map((framework) => (
-            <Dropdwon.Item>{framework}</Dropdwon.Item>
+          {options.map(({ label }, index) => (
+            <Dropdwon.Item key={index}>{label}</Dropdwon.Item>
           ))}
         </Dropdwon.Modal>
       </Dropdwon.Trigger>
     </Dropdwon>
+  );
+};
+
+// MultiSelect 사용 예시
+export const FrameworkSelect = () => {
+  const {
+    data: { frameworks },
+  } = useFrameworks();
+  const [selected, change] = useState<string>('');
+
+  return (
+    <MultiSelect
+      trigger={<Button value={selected.join()} />}
+      value={selected}
+      onChange={change}
+      options={frameworks}
+    />
   );
 };
